@@ -2,77 +2,104 @@ const path = require('path')
 const http = require('http')
 const express = require('express')
 const webpack = require('webpack')
-const proxy = require('express-http-proxy')
-const serveDst = ctx.taskParams && ctx.taskParams[0] === 'p' // fbi s -p
+const proxy = require('http-proxy-middleware')
+const statsConfig = require('./config/stats.config')
+const envData = ctx.options.webpack.data
+const envDataItemArr = Object.keys(envData)
 
-// get env match config
-require('./helpers/getEnv.js')(ctx, serveDst ? '' : 'dev')
-const config = require('./config/webpack.config')(require, ctx)
-let start = require('./helpers/getPort.js')(ctx, ctx.options.server.port)
+ctx.env = 'dev'
+let startPort = ctx.options.server.port
 
-const app = express()
-
-// proxy
-const proxyOptions = ctx.options.server.proxy
-if (proxyOptions) {
-  for (let p in proxyOptions) {
-    app.use(p, proxy(proxyOptions[p]))
-    ctx.log(`Proxy ${p} => ${proxyOptions[p]}`)
-  }
-}
-
-if (serveDst) {
-  app.use(express.static(ctx.options.server.root))
-  ctx.log(`Serving '${ctx.options.server.root}'`)
-} else {
-  const options = {
-    publicPath: config.output.publicPath,
-    stats: {
-      colors: true,
-      modules: false,
-      children: false,
-      chunks: false,
-      chunkModules: false
+if (ctx.taskParams) {
+  ctx.taskParams.map(item => {
+    if (envDataItemArr.includes(item)) {
+      ctx.env = item
     }
-  }
-  const compiler = webpack(config)
-  const devMiddleWare = require('webpack-dev-middleware')(compiler, options)
 
-  app.use(devMiddleWare)
-  app.use(require('webpack-hot-middleware')(compiler))
-
-  app.get('*', (req, res) => {
-    const fs = devMiddleWare.fileSystem
-    devMiddleWare.waitUntilValid(() => {
-      res.end(fs.readFileSync(path.join(config.output.path, '../index.html')))
-    })
+    if (!isNaN(item * 1) && item.length >= 4) {
+      startPort = item * 1
+    }
   })
 }
 
-// auto selected a valid port & start server
-function autoPortServer(cb) {
-  let port = start
-  start += 1
-  const server = http.createServer(app)
+const webpackConfig = require('./config/webpack.dev')
+const webpackOptions = {
+  publicPath: webpackConfig.output.publicPath,
+  stats: statsConfig
+}
 
-  server.listen(port, err => {
-    server.once('close', () => {
-      app.listen(port, err => {
-        if (err) {
-          ctx.log(err)
-          return
-        }
-        cb(port)
+function server() {
+  return new Promise((resolve, reject) => {
+    const app = express()
+
+    const compiler = webpack(webpackConfig)
+    const devMiddleWare = require('webpack-dev-middleware')(
+      compiler,
+      webpackOptions
+    )
+
+    // proxy
+    const proxyOptions = ctx.options.server.proxy
+    if (proxyOptions) {
+      for (let p in proxyOptions) {
+        app.use(
+          proxy(p, {
+            target: proxyOptions[p],
+            changeOrigin: true,
+            pathRewrite: path => {
+              return path.replace(p, '/')
+            }
+          })
+        )
+      }
+    }
+
+    app.use(devMiddleWare)
+    app.use(require('webpack-hot-middleware')(compiler))
+
+    app.get('*', (req, res) => {
+      const fs = devMiddleWare.fileSystem
+      devMiddleWare.waitUntilValid(() => {
+        res.end(
+          fs.readFileSync(path.join(webpackConfig.output.path, '../index.html'))
+        )
       })
     })
-    server.close()
-  })
-  server.on('error', err => {
-    autoPortServer(cb)
+
+    devMiddleWare.waitUntilValid(() => resolve(app))
   })
 }
 
-// listen
-autoPortServer(port => {
-  ctx.logger.success(`Server Addr: ${ctx.utils.style.yellow('http://'+ctx.options.server.host+':'+port)}`)
-})
+function listen(app) {
+  return new Promise((resolve, reject) => {
+    let port = startPort
+    startPort += 1
+    const server = http.createServer(app)
+
+    server.listen(port, err => {
+      server.once('close', () => {
+        app.listen(port, err => {
+          return err ? reject(err) : resolve(port)
+        })
+      })
+      server.close()
+    })
+    server.on('error', err => {
+      listen(app)
+    })
+  })
+}
+
+async function start() {
+  try {
+    const app = await server()
+    const port = await listen(app)
+    ctx.logger.success(
+      `Server runing at http://${ctx.options.server.host}:${port}`
+    )
+  } catch (err) {
+    ctx.logger.error(err)
+  }
+}
+
+module.exports = start

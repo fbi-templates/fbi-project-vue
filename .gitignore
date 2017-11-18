@@ -1,6 +1,8 @@
 # fbi
-dst
-dist
+dst/
+dst-*/
+dist/
+.DS_Store
 
 # Logs
 logs
