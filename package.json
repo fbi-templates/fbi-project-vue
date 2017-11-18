@@ -1,6 +1,6 @@
 {
   "name": "fbi-project-vue",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A modern project which uses Vuejs and Webpack.",
   "author": "fbi",
   "license": "MIT",

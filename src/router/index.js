@@ -1,9 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from 'views/Home'
-import Posts from 'views/Posts'
-import Post from 'views/Post'
-import Login from 'views/Login'
 
 Vue.use(Router)
 
@@ -14,22 +10,26 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: () =>
+        import('views/Home.vue' /* webpackChunkName: "chunk-home" */)
     },
     {
       path: '/posts',
       name: 'posts',
-      component: Posts
+      component: () =>
+        import('views/Posts.vue' /* webpackChunkName: "chunk-posts" */)
     },
     {
       path: '/posts/:id',
       name: 'post',
-      component: Post
+      component: () =>
+        import('views/Post.vue' /* webpackChunkName: "chunk-post" */)
     },
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: () =>
+        import('views/Login.vue' /* webpackChunkName: "chunk-login" */)
     },
     {
       path: '/private',
@@ -37,7 +37,7 @@ const router = new Router({
       component: {
         template: '<div>Private content.</div>'
       },
-      meta: { requiresAuth: true }
+      meta: {requiresAuth: true}
     },
     {
       path: '*',
@@ -55,7 +55,7 @@ router.beforeEach((to, from, next) => {
     if (!isLoggedIn) {
       router.push({
         path: '/login',
-        query: { redirect: to.fullPath }
+        query: {redirect: to.fullPath}
       })
     } else {
       next()
