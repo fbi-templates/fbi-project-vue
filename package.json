@@ -44,5 +44,17 @@
     "webpack-dev-middleware": "^1.8.2",
     "webpack-hot-middleware": "^2.12.2"
   },
-  "repository": {}
+  "repository": {},
+  "fbi": {
+    "tasks": {
+      "build": {
+        "alias": "b",
+        "desc": "Build the project."
+      },
+      "serve": {
+        "alias": "s",
+        "des": "Compile the code and start the development server."
+      }
+    }
+  }
 }

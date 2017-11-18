@@ -13,10 +13,6 @@ module.exports = {
     alias: 'npm',
     options: '' // '--registry=https://registry.npm.taobao.org'
   },
-  alias: {
-    b: 'build',
-    s: 'serve'
-  },
   webpack: {
     /*
      * 模版数据（编译时数据）
@@ -49,9 +45,18 @@ module.exports = {
       views: path.join(process.cwd(), 'src/views'),
       vue: path.join(process.cwd(), 'node_modules/vue/dist/vue.min.js'),
       vuex: path.join(process.cwd(), 'node_modules/vuex/dist/vuex.min.js'),
-      'vue-router': path.join(process.cwd(), 'node_modules/vue-router/dist/vue-router.min.js'),
-      'vue-resource': path.join(process.cwd(), 'node_modules/vue-resource/dist/vue-resource.common.js'),
-      'vuex-router-sync': path.join(process.cwd(), 'node_modules/vuex-router-sync/index.js')
+      'vue-router': path.join(
+        process.cwd(),
+        'node_modules/vue-router/dist/vue-router.min.js'
+      ),
+      'vue-resource': path.join(
+        process.cwd(),
+        'node_modules/vue-resource/dist/vue-resource.common.js'
+      ),
+      'vuex-router-sync': path.join(
+        process.cwd(),
+        'node_modules/vuex-router-sync/index.js'
+      )
     }
   }
 }

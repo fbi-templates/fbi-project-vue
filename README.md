@@ -14,5 +14,5 @@ $ fbi init https://github.com/fbi-templates/fbi-project-vue.git new-project
 
 $ npm i --prod   
            
-$ fbi ls                      
+$ fbi serve                      
 ```
