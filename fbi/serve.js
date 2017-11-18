@@ -7,20 +7,9 @@ const statsConfig = require('./config/stats.config')
 const envData = ctx.options.webpack.data
 const envDataItemArr = Object.keys(envData)
 
-ctx.env = 'dev'
-let startPort = ctx.options.server.port
-
-if (ctx.taskParams) {
-  ctx.taskParams.map(item => {
-    if (envDataItemArr.includes(item)) {
-      ctx.env = item
-    }
-
-    if (!isNaN(item * 1) && item.length >= 4) {
-      startPort = item * 1
-    }
-  })
-}
+ctx.env = taskParams.t ? 'test' : taskParams.p ? 'prod' : 'dev'
+ctx.logger.log(`Env: ${ctx.env}`)
+let startPort = taskParams.port || ctx.options.server.port
 
 const webpackConfig = require('./config/webpack.dev')
 const webpackOptions = {

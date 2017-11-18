@@ -28,11 +28,4 @@ export default {
       // setTimeout(() => reject('An error occurred.'), 1500)
     })
   }
-
-  // use vue-resource
-  // getPosts(request) {
-  //   return Vue.http.get('path/to/api/posts', request)
-  //     .then((response) => Promise.resolve(response.data))
-  //     .catch((error) => Promise.reject(error))
-  // }
 }

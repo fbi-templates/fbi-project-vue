@@ -3,16 +3,12 @@ const webpack = require('webpack')
 const statsConfig = require('./config/stats.config')
 const envData = ctx.options.webpack.data
 const envDataItemArr = Object.keys(envData)
-ctx.isProd = true
 
-Object.keys(taskParams).map(p => {
-  if (p.t) {
-    ctx.env = 'test'
-  } else {
-    ctx.env = 'prod'
-  }
-})
+ctx.isProd = true
+ctx.env = taskParams.t ? 'test' : 'prod'
 ctx.options.server.root += '-' + ctx.env
+ctx.logger.log(`Env: ${ctx.env}`)
+ctx.logger.log(`Target root: ${ctx.options.server.root}`)
 
 const webpackConfig = require('./config/webpack.prod')
 
