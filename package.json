@@ -4,6 +4,10 @@
   "description": "A modern project using vuejs and webpack.",
   "author": "fbi",
   "license": "MIT",
+  "scripts": {
+    "version": "git add .",
+    "postversion": "git push && git push --tags"
+  },
   "dependencies": {
     "vue": "2.5.6",
     "vue-router": "3.0.1",
