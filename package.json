@@ -5,9 +5,9 @@
   "author": "fbi",
   "license": "MIT",
   "scripts": {
-    "publish-patch": "npm version patch && git push && git push --tags",
-    "publish-minor": "npm version minor && git push && git push --tags",
-    "publish-major": "npm version major && git push && git push --tags"
+    "release-patch": "npm version patch && git push && git push --tags",
+    "release-minor": "npm version minor && git push && git push --tags",
+    "release-major": "npm version major && git push && git push --tags"
   },
   "dependencies": {
     "vue": "2.5.6",

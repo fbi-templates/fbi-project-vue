@@ -1,15 +1,13 @@
 const path = require('path')
 const webpack = require('webpack')
+const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const nodeModulesPath = (ctx.nodeModulesPath =
-  ctx.options.node_modules_path || path.join(process.cwd(), 'node_modules'))
 const eslintConfig = require('./eslint.config')
 const babelConfig = require('./babel.config')
 const postcssConfig = require('./postcss.config')
+
 const root = process.cwd()
-const fbiModulesPaths = [nodeModulesPath, 'node_modules']
 const webpackOpts = ctx.options.webpack
-const merge = require('webpack-merge')
 
 const DataForDefine = (function DataForDefinePlugin() {
   const data = Object.assign(
@@ -43,7 +41,7 @@ const config = {
   cache: true,
   entry: {
     app: [
-      nodeModulesPath + '/webpack-hot-middleware/client?reload=true',
+      ctx.nodeModulesPaths[1] + '/webpack-hot-middleware/client?reload=true',
       path.join(root, 'src/index.js')
     ]
   },
@@ -56,10 +54,10 @@ const config = {
   resolve: {
     extensions: ['*', '.js', '.vue', '.css', '.json'],
     alias: webpackOpts.alias,
-    modules: fbiModulesPaths
+    modules: ctx.nodeModulesPaths
   },
   resolveLoader: {
-    modules: fbiModulesPaths
+    modules: ctx.nodeModulesPaths
   },
   // For development, use cheap-module-eval-source-map. For production, use cheap-module-source-map.
   devtool: 'source-map',

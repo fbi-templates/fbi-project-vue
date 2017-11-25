@@ -4,13 +4,18 @@ const express = require('express')
 const webpack = require('webpack')
 const proxy = require('http-proxy-middleware')
 const statsConfig = require('./config/stats.config')
-const envData = ctx.options.webpack.data
-const envDataItemArr = Object.keys(envData)
 
+// Get task params
+const taskParams = ctx.task.getParams('serve')
+
+// Set environment
 ctx.env = taskParams.t ? 'test' : taskParams.p ? 'prod' : 'dev'
-ctx.logger.log(`Env: ${ctx.env}`)
+ctx.logger.info(`Env: ${ctx.env}`)
+
+// Service start port
 let startPort = taskParams.port || ctx.options.server.port
 
+// Webpack config
 const webpackConfig = require('./config/webpack.dev')
 const webpackOptions = {
   publicPath: webpackConfig.output.publicPath,
@@ -74,7 +79,8 @@ function listen(app) {
       server.close()
     })
     server.on('error', err => {
-      listen(app)
+      ctx.logger.warn(`Port ${port} is already in use, trying ${startPort}...`)
+      resolve(listen(app))
     })
   })
 }

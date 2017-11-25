@@ -1,8 +1,8 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
+
 const webpackBaseConfig = require('./webpack.base')
 const postcssConfig = require('./postcss.config')
-const nodeModulesPath = (ctx.nodeModulesPath = ctx.options.node_modules_path)
 
 const config = {
   module: {

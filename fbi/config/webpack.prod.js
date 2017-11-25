@@ -12,12 +12,11 @@ const ManifestPlugin = require('webpack-manifest-plugin')
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 const webpackBaseConfig = require('./webpack.base')
 const pkg = require('../../package')
-const nodeModulesPath = (ctx.nodeModulesPath = ctx.options.node_modules_path)
 const eslintConfig = require('./eslint.config')
 const babelConfig = require('./babel.config')
 const postcssConfig = require('./postcss.config')
+
 const root = process.cwd()
-const fbiModulesPaths = [nodeModulesPath, 'node_modules']
 const webpackOpts = ctx.options.webpack
 const noop = function() {}
 const hasFavicon = ctx.utils.fs.existSync(

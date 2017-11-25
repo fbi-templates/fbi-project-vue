@@ -1,14 +1,15 @@
 process.env.NODE_ENV = 'production'
 const webpack = require('webpack')
 const statsConfig = require('./config/stats.config')
-const envData = ctx.options.webpack.data
-const envDataItemArr = Object.keys(envData)
 
+// Set environment
 ctx.isProd = true
-ctx.env = taskParams.t ? 'test' : 'prod'
+ctx.env = ctx.task.getParams('build', 't') ? 'test' : 'prod'
+ctx.logger.info(`Env : ${ctx.env}`)
+
+// Set target root
 ctx.options.server.root += '-' + ctx.env
-ctx.logger.log(`Env: ${ctx.env}`)
-ctx.logger.log(`Target root: ${ctx.options.server.root}`)
+ctx.logger.info(`Root: ${ctx.options.server.root}`)
 
 const webpackConfig = require('./config/webpack.prod')
 

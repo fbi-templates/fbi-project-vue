@@ -2,7 +2,7 @@ module.exports = {
   babelrc: false,
   presets: [
     [
-      ctx.nodeModulesPath + '/babel-preset-env',
+      'babel-preset-env',
       {
         targets: ctx.options.webpack.targets,
         modules: false,
@@ -10,6 +10,6 @@ module.exports = {
         debug: ctx.mode.debug
       }
     ],
-    ctx.nodeModulesPath + '/babel-preset-stage-1'
+    'babel-preset-stage-1'
   ]
 }
