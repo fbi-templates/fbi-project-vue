@@ -5,7 +5,7 @@ const state = {
   info: {
     name: '',
     pwd: ''
-  },
+  }
 }
 
 const mutations = {
@@ -15,30 +15,34 @@ const mutations = {
   LOGOUT(state) {
     state.isLogin = false
   },
-  USER_INFO(state, { user }) {
+  USER_INFO(state, {user}) {
     state.info = user
-  },
+  }
 }
 
 const actions = {
-  login({ commit }, user) {
-    return api.user.login()
-      .then(() => {
-        commit('LOGIN')
-        commit('USER_INFO', { user })
+  login(ctx, user) {
+    return api.user.login().then(() => {
+      ctx.commit('LOGIN')
+      ctx.commit('USER_INFO', {
+        user
       })
+    })
   },
-  logout({ commit }) {
-    commit('LOGOUT')
-    commit('USER_INFO', null)
+  logout(ctx) {
+    ctx.commit('LOGOUT')
+    ctx.commit('USER_INFO', null)
   },
-  updateUserInfo({ commit }, user) {
+  updateUserInfo(ctx, user) {
     console.log(user)
-    commit('USER_INFO', { user })
-  },
+    ctx.commit('USER_INFO', {
+      user
+    })
+  }
 }
 
 export default {
+  namespaced: true,
   state,
   actions,
   mutations

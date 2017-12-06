@@ -1,0 +1,10 @@
+.img-list {
+  li {
+    display: inline-block;
+    list-style-type: none;
+    img {
+      width: 30px;
+      margin: 0 .1em;
+    }
+  }
+}

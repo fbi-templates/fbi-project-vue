@@ -1,0 +1,20 @@
+.detail-post {
+  .loading {
+    padding: 10px;
+    text-align: center;
+    color: #999;
+  }
+  .post {
+    width: 600px;
+    margin: 0 auto;
+    color: #666;
+  }
+  .post-cnt {
+    min-height: 400px;
+    line-height: 1.8;
+  }
+  .post-num {
+    padding: 1em;
+    text-align: right;
+  }
+}

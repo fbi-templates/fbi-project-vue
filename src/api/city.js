@@ -8,14 +8,7 @@ import cgi from '../helpers/cgi'
 export default {
   all() {
     return cgi.http
-      .get(`${cgi.root}/api/city`)
+      .get(`${cgi.root}/city`)
       .then(response => cgi.handleCGIReturn(response))
-  },
-  login() {
-    return new Promise(resolve => {
-      setTimeout(() => resolve(true), 1500)
-      // test error
-      // setTimeout(() => reject('An error occurred.'), 1500)
-    })
   }
 }

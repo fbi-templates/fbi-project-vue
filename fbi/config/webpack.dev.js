@@ -1,19 +1,31 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
-
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpackBaseConfig = require('./webpack.base')
-const postcssConfig = require('./postcss.config')
 
 const config = {
   module: {
     rules: [
       {
-        test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.vue$/,
         use: {
-          loader: 'url-loader',
+          loader: 'vue-loader',
           options: {
-            limit: 5000,
-            name: 'img/[name].[ext]?[hash:8]'
+            esModule: false,
+            loaders: {
+              js: [
+                {
+                  loader: 'babel-loader',
+                  options: ctx.options.babel
+                }
+              ]
+            },
+            postcss: {
+              ident: 'postcss',
+              plugins: Object.keys(ctx.options.postcss).map(item => {
+                return require(`${item}`)(ctx.options.postcss[item])
+              })
+            }
           }
         }
       },
@@ -24,7 +36,12 @@ const config = {
           'css-loader',
           {
             loader: 'postcss-loader',
-            options: postcssConfig
+            options: {
+              ident: 'postcss',
+              plugins: Object.keys(ctx.options.postcss).map(item => {
+                return require(`${item}`)(ctx.options.postcss[item])
+              })
+            }
           }
         ]
       }

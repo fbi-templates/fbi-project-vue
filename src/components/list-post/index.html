@@ -1,0 +1,27 @@
+<section class="list-post-wrap">
+  <!--List-->
+  <section class="list-post">
+    <div v-if="listLoading" class="loading">loading...</div>
+    <div class="error">{{ errorMessage }}</div>
+    <ul class="posts-list">
+      <li v-for="(post, index) of allPosts">
+        <span class="num">{{index+1}}.</span>
+        <router-link :to="{ name: 'post', params: { id: post.id } }">
+          {{ post.title }}
+        </router-link>
+      </li>
+    </ul>
+  </section>
+  <div class="post-num">
+    Total posts: {{ allPosts.length }}
+  </div>
+  <!--Pager-->
+  <ul class="pager">
+    <li v-for="num of totalNum" :class="num === currIdx ? 'active' : '' " @click="handlePageLinkClick(num)">
+      {{ num }}
+    </li>
+    <li class="private">
+      <router-link :to="{ name: 'private' }">Private Link</router-link>
+    </li>
+  </ul>
+</section>

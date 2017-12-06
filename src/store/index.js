@@ -1,16 +1,19 @@
+import * as getters from './getters'
+
 import Vue from 'vue'
 import Vuex from 'vuex'
-import * as getters from './getters'
+import city from './modules/city'
 import post from './modules/post'
 import user from './modules/user'
 
 Vue.use(Vuex)
 
+// store 默认已开启命名空间，详见：./modules/*
 export default new Vuex.Store({
-	getters,
-	strict: true,
-	modules: {
-		post,
-		user
-	}
+  strict: true,
+  modules: {
+    post,
+    user,
+    city
+  }
 })

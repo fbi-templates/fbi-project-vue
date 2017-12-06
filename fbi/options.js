@@ -1,69 +1,102 @@
 const path = require('path')
 
+const targets = {
+  browsers: ['last 2 versions', 'safari >= 7', 'ie > 8']
+}
+
 module.exports = {
   server: {
-    root: 'dst',
+    root: 'dist',
     host: 'localhost',
     port: 8888,
     proxy: {
       '/proxy': 'http://localhost:4000'
     }
   },
-  npm: {
-    alias: 'tnpm',
-    options: '' //--registry=https://registry.npm.taobao.org'
-  },
-  alias: {
-    b: 'build',
-    s: 'serve'
-  },
-  webpack: {
-    /*
-     * 模版数据（编译时数据）
-     *
-     * 注意：该数据仅在js代码内生效，使用定义的变量名称直接访问即可
-     */
-    data: {
-      // 所有环境(可删除)
-      all: {
-        __KEY__: '',
-        SUPER_ADMINS: ['shawnnxiao'],
-        __IS_MAINTENANCING__: '',
-        __MAINTENANCING_TIME__: []
-      },
-      // 开发环境: fbi s
-      dev: {
-        __APIROOT__: '/proxy/api',
-        __RESOURCE_ROOT__: 'http://localhost:4000/'
-      },
-      // 测试环境: fbi b -test
-      test: {
-        __APIROOT__: 'http://wt.oa.com/retu/api',
-        __RESOURCE_ROOT__: '/retu/'
-      },
-      // 线上环境: fbi b
-      prod: {
-        __APIROOT__: 'http://retu.oa.com/api',
-        __RESOURCE_ROOT__: './'
-      }
+
+  // Compile time data (Valid only in js code)
+  data: {
+    // All environments
+    all: {
+      __KEY__: ''
     },
-    alias: {
-      components: path.join(process.cwd(), 'src/components'),
-      views: path.join(process.cwd(), 'src/views'),
-      helpers: path.join(process.cwd(), 'src/helpers'),
-      vue: path.join(process.cwd(), 'node_modules/vue/dist/vue.min.js'),
-      vuex: path.join(process.cwd(), 'node_modules/vuex/dist/vuex.min.js'),
-      'vue-router': path.join(
-        process.cwd(),
-        'node_modules/vue-router/dist/vue-router.min.js'
-      ),
-      'vuex-router-sync': path.join(
-        process.cwd(),
-        'node_modules/vuex-router-sync/index.js'
-      )
+    // `fbi s`
+    dev: {
+      __APIROOT__: '/proxy/api',
+      __RESOURCE_ROOT__: 'http://localhost:4000/'
     },
-    targets: {
-      browsers: ['last 2 versions', 'safari >= 7']
+    // `fbi b -test`
+    test: {
+      __APIROOT__: 'http://test.demo.com/api',
+      __RESOURCE_ROOT__: '/retu/'
+    },
+    // `fbi b` or `fbi b -p`
+    prod: {
+      __APIROOT__: 'http://demo.com/api',
+      __RESOURCE_ROOT__: './'
     }
+  },
+
+  // Resolve alias
+  // e.g: import '../../components/x' => import 'components/x'
+  alias: {
+    components: path.join(process.cwd(), 'src/components'),
+    views: path.join(process.cwd(), 'src/views'),
+    helpers: path.join(process.cwd(), 'src/helpers'),
+    vue: path.join(process.cwd(), 'node_modules/vue/dist/vue.min.js'),
+    vuex: path.join(process.cwd(), 'node_modules/vuex/dist/vuex.min.js'),
+    'vue-router': path.join(
+      process.cwd(),
+      'node_modules/vue-router/dist/vue-router.min.js'
+    ),
+    'vuex-router-sync': path.join(
+      process.cwd(),
+      'node_modules/vuex-router-sync/index.js'
+    )
+  },
+
+  // Webpack module noParse
+  // Docs: https://webpack.js.org/configuration/module/#module-noparse
+  noParse: content => {
+    return false
+  },
+
+  sourcemap: 'cheap-module-source-map',
+
+  // ESlint config
+  eslint: {
+    status: 'on', // `on`: turn on; others: turn off
+    options: {
+      // code style: https://github.com/airbnb/javascript
+      // Docs: http://eslint.org/docs/user-guide/configuring
+      rules: {
+        semi: ['error', 'never'],
+        'no-console': [0],
+        'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+      }
+    }
+  },
+
+  // babel-loader options
+  // Docs: https://github.com/babel/babel-loader/tree/7.x#options
+  babel: {
+    babelrc: false,
+    presets: [
+      [
+        'babel-preset-env',
+        {
+          targets,
+          modules: false,
+          useBuiltIns: true
+        }
+      ],
+      'babel-preset-stage-1'
+    ]
+  },
+
+  // Postcss config (plugin-name: plugin-options)
+  postcss: {
+    autoprefixer: targets,
+    precss: {}
   }
 }

@@ -1,35 +1,44 @@
-import Vue from 'vue'
 import Router from 'vue-router'
+import Vue from 'vue'
+
+// 代码分离: 异步引入
+const Home = () => import('views/Home.vue' /* webpackChunkName: "chunk-home" */)
+const Posts = () =>
+  import('views/Posts.vue' /* webpackChunkName: "chunk-posts" */)
+const Post = () => import('views/Post.vue' /* webpackChunkName: "chunk-post" */)
+const City = () => import('views/City.vue' /* webpackChunkName: "chunk-city" */)
+const Login = () =>
+  import('views/Login.vue' /* webpackChunkName: "chunk-login" */)
 
 Vue.use(Router)
 
 const router = new Router({
-  // mode: 'history',
   linkActiveClass: 'main-nav-active',
   routes: [
     {
       path: '/',
       name: 'home',
-      component: () =>
-        import('views/Home.vue' /* webpackChunkName: "chunk-home" */)
+      component: Home
     },
     {
       path: '/posts',
       name: 'posts',
-      component: () =>
-        import('views/Posts.vue' /* webpackChunkName: "chunk-posts" */)
+      component: Posts
     },
     {
       path: '/posts/:id',
       name: 'post',
-      component: () =>
-        import('views/Post.vue' /* webpackChunkName: "chunk-post" */)
+      component: Post
     },
     {
       path: '/login',
       name: 'login',
-      component: () =>
-        import('views/Login.vue' /* webpackChunkName: "chunk-login" */)
+      component: Login
+    },
+    {
+      path: '/city',
+      name: 'city',
+      component: City
     },
     {
       path: '/private',
@@ -37,7 +46,9 @@ const router = new Router({
       component: {
         template: '<div>Private content.</div>'
       },
-      meta: {requiresAuth: true}
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '*',
@@ -55,7 +66,9 @@ router.beforeEach((to, from, next) => {
     if (!isLoggedIn) {
       router.push({
         path: '/login',
-        query: {redirect: to.fullPath}
+        query: {
+          redirect: to.fullPath
+        }
       })
     } else {
       next()

@@ -1,47 +1,27 @@
+const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const eslintConfig = require('./eslint.config')
-const babelConfig = require('./babel.config')
-const postcssConfig = require('./postcss.config')
+const DataForCompile = require('./data-for-compile')
 
 const root = process.cwd()
-const webpackOpts = ctx.options.webpack
-
-const DataForDefine = (function DataForDefinePlugin() {
-  const data = Object.assign(
-    {},
-    webpackOpts.data.all || {},
-    webpackOpts.data[ctx.env]
-  )
-
-  if (data && typeof data === 'object' && Object.keys(data).length > 0) {
-    const copy = JSON.parse(JSON.stringify(data))
-    copy['ENV'] = ctx.env
-    Object.keys(copy).map(item => {
-      switch (typeof item) {
-        case 'string':
-          copy[item] = JSON.stringify(copy[item])
-          break
-      }
-    })
-    return copy
-  }
-
-  return {}
-})()
+let templateFilepath = path.join(root, '/src/index.html')
+if (!fs.existsSync(templateFilepath)) {
+  templateFilepath = templateFilepath.replace('.html', '.ejs')
+}
 
 // remove warning:
 // DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic, see https://github.com/webpack/loader-utils/issues/56
 // parseQuery() will be replaced with getOptions() in the next major version of loader-utils.
 process.noDeprecation = true
+const devModulesPath = ctx.nodeModulesPaths[1] || './node_modules'
 
 const config = {
   cache: true,
   entry: {
     app: [
-      ctx.nodeModulesPaths[1] + '/webpack-hot-middleware/client?reload=true',
+      devModulesPath + '/webpack-hot-middleware/client?reload=true',
       path.join(root, 'src/index.js')
     ]
   },
@@ -51,10 +31,14 @@ const config = {
     publicPath: '/assets/'
   },
   target: 'web',
+  // context: process.cwd(),
   resolve: {
     extensions: ['*', '.js', '.vue', '.css', '.json'],
-    alias: webpackOpts.alias,
-    modules: ctx.nodeModulesPaths
+    alias: ctx.options.alias,
+    // https://github.com/benmosher/eslint-plugin-import/issues/139#issuecomment-287183200
+    // modules: ctx.nodeModulesPaths.concat([path.resolve(root, 'src')])
+    modules: ctx.nodeModulesPaths.concat([path.resolve(__dirname, '..', 'src')])
+    // path.resolve(__dirname, '..', 'src')
   },
   resolveLoader: {
     modules: ctx.nodeModulesPaths
@@ -62,37 +46,8 @@ const config = {
   // For development, use cheap-module-eval-source-map. For production, use cheap-module-source-map.
   devtool: 'source-map',
   module: {
+    noParse: ctx.options.noParse ? ctx.options.noParse : [],
     rules: [
-      {
-        enforce: 'pre', // enforce: 'pre', enforce: 'post',
-        test: /\.(vue|js)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'eslint-loader',
-          options: eslintConfig
-        }
-      },
-      {
-        test: /\.vue$/,
-        use: {
-          loader: 'vue-loader',
-          options: {
-            loaders: {
-              js: [
-                {
-                  loader: 'babel-loader',
-                  options: babelConfig
-                },
-                {
-                  loader: 'eslint-loader',
-                  options: eslintConfig
-                }
-              ]
-            },
-            postcss: postcssConfig
-          }
-        }
-      },
       {
         test: /\.html$/,
         use: 'vue-html-loader'
@@ -109,28 +64,101 @@ const config = {
           },
           {
             loader: 'babel-loader',
-            options: babelConfig
+            options: Object.assign(
+              {},
+              {
+                cacheDirectory: true
+              },
+              ctx.options.babel
+            )
           }
         ]
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 5000,
+          name:
+            process.env.NODE_ENV === 'production'
+              ? 'img/[name].[hash:8].[ext]'
+              : 'img/[name].[ext]?[hash:8]'
+        }
+      },
+      {
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 5000,
+          name:
+            process.env.NODE_ENV === 'production'
+              ? 'media/[name].[hash:8].[ext]'
+              : 'media/[name].[ext]?[hash:8]'
+        }
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 5000,
+          name:
+            process.env.NODE_ENV === 'production'
+              ? 'fonts/[name].[hash:8].[ext]'
+              : 'fonts/[name].[ext]?[hash:8]'
+        }
       }
     ]
   },
   plugins: [
-    new webpack.DefinePlugin(DataForDefine),
+    new webpack.DefinePlugin(DataForCompile),
     new HtmlWebpackPlugin({
-      data: DataForDefine,
-      title: 'Vue 2',
-      template: process.cwd() + '/src/index.ejs',
+      data: DataForCompile,
+      template: templateFilepath,
       filename: '../index.html'
     })
   ],
   performance: {
     hints: false
+  },
+  node: {
+    // prevent webpack from injecting useless setImmediate polyfill because Vue
+    // source contains it (although only uses it if it's native).
+    setImmediate: false,
+    // prevent webpack from injecting mocks to Node native modules
+    // that does not make sense for the client
+    dgram: 'empty',
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty',
+    child_process: 'empty'
   }
 }
 
-if (webpackOpts.noParse && webpackOpts.noParse.length) {
-  config.module.noParse = webpackOpts.noParse
+if (ctx.options.eslint.status === 'on') {
+  config.module.rules.push({
+    test: /\.(vue|js)$/,
+    loader: 'eslint-loader',
+    enforce: 'pre',
+    exclude: /node_modules/,
+    options: Object.assign(
+      {},
+      {
+        formatter: require('eslint-friendly-formatter'),
+        root: true,
+        parser: 'babel-eslint',
+        parserOptions: {
+          sourceType: 'module'
+        },
+        env: {
+          browser: true
+        },
+        extends: 'airbnb-base',
+        // required to lint *.vue files
+        plugins: ['html']
+      },
+      ctx.options.eslint.options
+    )
+  })
 }
 
 module.exports = config

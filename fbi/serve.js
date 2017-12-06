@@ -10,7 +10,7 @@ const taskParams = ctx.task.getParams('serve')
 
 // Set environment
 ctx.env = taskParams.t ? 'test' : taskParams.p ? 'prod' : 'dev'
-ctx.logger.info(`Env: ${ctx.env}`)
+ctx.logger.log(`Env: ${ctx.env}`)
 
 // Service start port
 let startPort = taskParams.port || ctx.options.server.port
@@ -89,7 +89,7 @@ async function start() {
   try {
     const app = await server()
     const port = await listen(app)
-    ctx.logger.success(
+    ctx.logger.info(
       `Server runing at http://${ctx.options.server.host}:${port}`
     )
   } catch (err) {

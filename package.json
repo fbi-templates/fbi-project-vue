@@ -1,7 +1,7 @@
 {
   "name": "fbi-project-vue",
   "version": "1.3.0",
-  "description": "A modern project using vuejs and webpack.",
+  "description": "SPA using Vue.js",
   "author": "fbi",
   "license": "MIT",
   "scripts": {
@@ -10,27 +10,30 @@
     "release-major": "npm version major && git push && git push --tags"
   },
   "dependencies": {
-    "vue": "2.5.6",
-    "vue-router": "3.0.1",
-    "vuex": "3.0.1",
-    "vuex-router-sync": "5.0.0"
+    "axios": "^0.17.1",
+    "vue": "^2.5.9",
+    "vue-router": "^3.0.1",
+    "vue-template-compiler": "^2.5.9",
+    "vuex": "^3.0.1",
+    "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
-    "autoprefixer": "7.1.6",
+    "autoprefixer": "7.2.1",
     "babel-core": "6.26.0",
-    "babel-eslint": "8.0.2",
+    "babel-eslint": "8.0.3",
     "babel-loader": "7.1.2",
     "babel-preset-env": "1.6.1",
     "babel-preset-stage-1": "6.24.1",
     "cache-loader": "1.2.0",
-    "chunk-manifest-webpack-plugin": "1.1.2",
     "clean-webpack-plugin": "0.1.17",
-    "copy-webpack-plugin": "4.2.1",
+    "copy-webpack-plugin": "4.2.3",
     "css-loader": "0.28.7",
-    "eslint": "4.11.0",
+    "eslint": "4.12.1",
     "eslint-config-airbnb-base": "12.1.0",
+    "eslint-friendly-formatter": "3.0.0",
+    "eslint-import-resolver-webpack": "0.8.3",
     "eslint-loader": "1.9.0",
-    "eslint-plugin-html": "4.0.0",
+    "eslint-plugin-html": "4.0.1",
     "eslint-plugin-import": "2.8.0",
     "express": "4.16.2",
     "express-http-proxy": "1.1.0",
@@ -39,20 +42,18 @@
     "html-webpack-plugin": "2.30.1",
     "http-proxy-middleware": "0.17.4",
     "json-loader": "0.5.7",
-    "postcss-loader": "2.0.8",
+    "optimize-css-assets-webpack-plugin": "3.2.0",
+    "postcss-loader": "2.0.9",
     "precss": "2.0.0",
     "progress-bar-webpack-plugin": "1.10.0",
-    "script-ext-html-webpack-plugin": "1.8.8",
     "style-loader": "0.19.0",
+    "uglifyjs-webpack-plugin": "1.1.2",
     "url-loader": "0.6.2",
     "vue-html-loader": "1.2.4",
     "vue-loader": "13.5.0",
-    "vue-template-compiler": "2.5.6",
-    "webpack": "3.8.1",
-    "webpack-chunk-hash": "0.5.0",
-    "webpack-dev-middleware": "1.12.0",
-    "webpack-hot-middleware": "2.20.0",
-    "webpack-manifest-plugin": "1.3.2",
+    "webpack": "3.10.0",
+    "webpack-dev-middleware": "1.12.2",
+    "webpack-hot-middleware": "2.21.0",
     "webpack-merge": "4.1.1"
   },
   "repository": {},
@@ -63,11 +64,11 @@
     "tasks": {
       "build": {
         "alias": "b",
-        "desc": "Build the project."
+        "desc": "Build the project for the specified environment (default is production)."
       },
       "serve": {
         "alias": "s",
-        "desc": "Compile the code and start the development server."
+        "desc": "Compile and start development server."
       }
     }
   }

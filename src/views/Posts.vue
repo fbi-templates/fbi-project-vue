@@ -7,16 +7,16 @@
 
 <template>
   <section class="posts">
-    <posts-list></posts-list>
+    <ListPost></ListPost>
   </section>
 </template>
-
+Ï
 <script>
-  import PostsList from 'components/PostsList'
+  import ListPost from 'components/list-post'
 
   export default {
     components: {
-      PostsList
+      ListPost
     },
     created() {
       // document.title += ' - Posts'

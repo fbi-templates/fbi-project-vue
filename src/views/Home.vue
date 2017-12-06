@@ -17,27 +17,19 @@
       <img :src="logo" class="logo">
     </div>
     <h2>
-      This is Home
+      This is Home Demo
     </h2>
     <demo></demo>
-    <br>
-    <ul>
-      <li>
-        FBI github: 
-        <a href="https://github.com/neikvon/fbi" target="_blank">https://github.com/neikvon/fbi</a></li>
-      <li>
-        fbi-project-vue: <a href="https://github.com/fbi-templates/fbi-project-vue" target="_blank">https://github.com/fbi-templates/fbi-project-vue</a></li>
-    </ul>
-    <img-list class="bottom"></img-list>
+    <ListImg class="bottom"></ListImg>
   </section>
 </template>
 <script>
-  import ImgList from 'components/ImgList'
+  import ListImg from 'components/list-img'
   import Demo from 'components/demo'
 
   export default {
     components: {
-      ImgList,
+      ListImg,
       Demo
     },
     data() {

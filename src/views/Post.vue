@@ -1,15 +1,15 @@
 <template>
   <section>
-    <post-detail></post-detail>
+    <DetailPost></DetailPost>
   </section>
 </template>
 
 <script>
-  import PostDetail from 'components/PostDetail'
+  import DetailPost from 'components/detail-post'
 
   export default {
     components: {
-      PostDetail
+      DetailPost
     }
   }
 </script>

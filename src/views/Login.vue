@@ -6,16 +6,16 @@
 
 <template>
   <div class="login">
-    <login-form></login-form>
+    <FormLogin></FormLogin>
   </div>
 </template>
 
 <script>
-  import LoginForm from 'components/LoginForm'
+  import FormLogin from 'components/form-login'
 
   export default {
     components: {
-      LoginForm
+      FormLogin
     }
   }
 </script>

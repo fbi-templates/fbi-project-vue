@@ -1,0 +1,22 @@
+<section class="login-wrap">
+  <!--Form-->
+  <form>
+    <div class="form-item">
+      <label for="">Name</label>
+      <input type="text" v-model="userInfo.name">
+    </div>
+    <div class="form-item">
+      <label for="">Password</label>
+      <input type="password" v-model="userInfo.pwd">
+    </div>
+    <div class="form-item">
+      <input type="button" value="Login" @click="handleBtnLoginClick">
+    </div>
+  </form>
+  <!--Info-->
+  <div class="info" v-if="userInfo">
+    <div>
+      Name: {{ userInfo.name }}
+    </div>
+  </div>
+</section>

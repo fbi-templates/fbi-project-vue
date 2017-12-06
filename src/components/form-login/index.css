@@ -1,0 +1,16 @@
+.login-wrap {
+  width: 300px;
+  margin: 0 auto;
+  text-align: left;
+  form {
+    padding-top: 100px;
+    padding-left: 100px;
+    label {
+      float: left;
+      margin-left: -100px;
+    }
+    .form-item {
+      margin-bottom: 10px;
+    }
+  }
+}

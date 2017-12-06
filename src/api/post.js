@@ -1,6 +1,4 @@
-import Vue from 'vue'
-
-// mock data
+// Mock data
 const posts = [
   {
     id: 1,
@@ -22,10 +20,8 @@ const posts = [
 
 export default {
   getPosts() {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       setTimeout(() => resolve(posts), 1500)
-      // test error
-      // setTimeout(() => reject('An error occurred.'), 1500)
     })
   }
 }
