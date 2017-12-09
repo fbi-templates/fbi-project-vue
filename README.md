@@ -66,6 +66,9 @@ $ fbi <task> [params]
 
 ## Changelog
 
+- **2.0.2** (2017.12.09)
+  - Add `.editorconfig`
+
 - **2.0.0** (2017.12.06)
   - Improvements: build performance, use of configuration
 
