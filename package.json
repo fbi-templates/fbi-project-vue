@@ -1,6 +1,6 @@
 {
   "name": "fbi-project-vue",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "SPA using Vue.js",
   "scripts": {
     "release-patch": "npm version patch && git push && git push --tags",
