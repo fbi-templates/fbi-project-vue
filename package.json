@@ -2,8 +2,6 @@
   "name": "fbi-project-vue",
   "version": "2.0.1",
   "description": "SPA using Vue.js",
-  "author": "fbi",
-  "license": "MIT",
   "scripts": {
     "release-patch": "npm version patch && git push && git push --tags",
     "release-minor": "npm version minor && git push && git push --tags",
@@ -56,7 +54,26 @@
     "webpack-hot-middleware": "2.21.0",
     "webpack-merge": "4.1.1"
   },
-  "repository": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fbi-templates/fbi-task-project-vue.git"
+  },
+  "keywords": [
+    "vuejs",
+    "spa",
+    "front-end",
+    "boilerplate",
+    "starter-kit",
+    "template",
+    "fbi-project",
+    "fbi"
+  ],
+  "author": "neikvon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fbi-templates/fbi-task-project-vue/issues"
+  },
+  "homepage": "https://github.com/fbi-templates/fbi-task-project-vue#readme",
   "fbi": {
     "template": {
       "name": "fbi-project-vue"
