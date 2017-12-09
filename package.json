@@ -56,7 +56,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fbi-templates/fbi-task-project-vue.git"
+    "url": "git+https://github.com/fbi-templates/fbi-project-vue.git"
   },
   "keywords": [
     "vuejs",
@@ -71,9 +71,9 @@
   "author": "neikvon",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fbi-templates/fbi-task-project-vue/issues"
+    "url": "https://github.com/fbi-templates/fbi-project-vue/issues"
   },
-  "homepage": "https://github.com/fbi-templates/fbi-task-project-vue#readme",
+  "homepage": "https://github.com/fbi-templates/fbi-project-vue#readme",
   "fbi": {
     "template": {
       "name": "fbi-project-vue"
