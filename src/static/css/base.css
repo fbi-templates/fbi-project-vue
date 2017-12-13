@@ -17,6 +17,11 @@ body {
     helvetica, 'helvetica neue', Ubuntu, 'segoe ui', arial, sans-serif;
 }
 
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
 audio,
 canvas,
 iframe,

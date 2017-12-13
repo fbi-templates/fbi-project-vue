@@ -6,14 +6,13 @@
 
 <script>
 export default {
-  components: {
-  }
 }
 </script>
 
 <style>
-  .page {
-    text-align: center;
-    padding: 1em;
-  }
+@import './static/css/index.css';
+#app {
+  width: 100%;
+  height: 100%;
+}
 </style>

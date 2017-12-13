@@ -10,6 +10,7 @@ const globalHelper = {
   $_: $lodash
 }
 
+// register global helper, use it in vue component just like `this.$apis.xxx`
 function initGlobalHelper() {
   Object
     .keys(globalHelper)
@@ -18,10 +19,12 @@ function initGlobalHelper() {
     })
 }
 
+// register global component, use it in vue component just like `<v-icon :name='xxx'>`
 function initGlobalComponent() {
   Vue.component('v-icon', Icon)
 }
 
+// register filter
 function initFilters() {
   for (let key in filters) {
     Vue.filter(key, filters[key])

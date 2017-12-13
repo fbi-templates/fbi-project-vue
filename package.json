@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "qs": "^6.5.1",
     "vue": "^2.5.9",
     "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.5.9",
