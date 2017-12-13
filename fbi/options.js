@@ -40,6 +40,7 @@ module.exports = {
   // Resolve alias
   // e.g: import '../../components/x' => import 'components/x'
   alias: {
+    src: path.join(process.cwd(), 'src'),
     components: path.join(process.cwd(), 'src/components'),
     views: path.join(process.cwd(), 'src/views'),
     helpers: path.join(process.cwd(), 'src/helpers'),
