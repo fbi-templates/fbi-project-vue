@@ -1,20 +1,25 @@
 <template>
-  <h1 class="typing">{{text}}</h1>
+  <h1 class="typing">{{showingText}}</h1>
 </template>
 
 <script>
 export default {
   data () {
     return {
-      allText: 'hello world',
-      text: '',
-      index: 1
+      showingText: '',
+      index: 0
+    }
+  },
+  props: {
+    text: {
+      type: String,
+      default: 'hello world'
     }
   },
   methods: {
     typing() {
-      if (this.index <= this.allText.length) {
-        this.text = this.allText.slice(0, this.index)
+      if (this.index <= this.text.length) {
+        this.showingText = this.text.slice(0, this.index)
         this.index++
       } else {
         return
