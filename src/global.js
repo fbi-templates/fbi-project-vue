@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {$apis, $util, $document} from './helpers/index'
+import {$apis, $util, $document, $lodash} from './helpers/index'
 import filters from './filters'
 import Icon from 'components/basic/Icon/Icon.vue'
 
