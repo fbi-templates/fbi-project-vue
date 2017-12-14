@@ -17,6 +17,11 @@ body {
     helvetica, 'helvetica neue', Ubuntu, 'segoe ui', arial, sans-serif;
 }
 
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
 audio,
 canvas,
 iframe,
@@ -24,6 +29,15 @@ img,
 svg,
 video {
   vertical-align: middle;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
 }
 
 fieldset {

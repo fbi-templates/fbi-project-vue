@@ -1,6 +1,6 @@
 {
   "name": "fbi-project-vue",
-  "version": "2.0.3",
+  "version": "3.0.0",
   "description": "SPA using Vue.js",
   "scripts": {
     "release-patch": "npm version patch && git push && git push --tags",
@@ -9,10 +9,12 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "qs": "^6.5.1",
     "vue": "^2.5.9",
     "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.5.9",
     "vuex": "^3.0.1",
+    "vuex-persistedstate": "^2.4.2",
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
@@ -20,6 +22,7 @@
     "babel-core": "6.26.0",
     "babel-eslint": "8.0.3",
     "babel-loader": "7.1.2",
+    "babel-plugin-lodash": "^3.3.2",
     "babel-preset-env": "1.6.1",
     "babel-preset-stage-1": "6.24.1",
     "cache-loader": "1.2.0",
@@ -40,6 +43,7 @@
     "html-webpack-plugin": "2.30.1",
     "http-proxy-middleware": "0.17.4",
     "json-loader": "0.5.7",
+    "lodash-webpack-plugin": "^0.11.4",
     "optimize-css-assets-webpack-plugin": "3.2.0",
     "postcss-loader": "2.0.9",
     "precss": "2.0.0",

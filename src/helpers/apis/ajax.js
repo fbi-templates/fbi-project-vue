@@ -6,10 +6,12 @@ function requestHandle(params) {
   if (params.method === 'post') {
     params.data = qs.stringify(params.data)
   }
-  console.log(`------request ${params.data} start------\n`)
+  console.log(`------request ${params.url} start------\n`)
+  console.log(params.data)
   return new Promise(function(resolve, reject){
     axios(params).then(res => {
-      console.log(`------response ${res.data} start------\n`)
+      console.log(`------response ${params.url} start------\n`)
+      console.log(res.data)
       if (res.data.code === 0) {
         resolve(res.data)
       } else {

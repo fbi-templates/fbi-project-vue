@@ -14,12 +14,11 @@ export default {
   debounce: _.debounce,
   throttle: _.throttle,
   find: _.find,
+  keys: _.keys,
   values: _.values,
   size: _.size,
-  pick: _.pick,
   isEmpty: _.isEmpty,
   isFunction: _.isFunction,
   isArray: _.isArray,
-  isDate: _.isDate,
-  flattenDepth: _.flattenDepth
+  isDate: _.isDate
 }
