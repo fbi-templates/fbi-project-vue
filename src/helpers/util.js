@@ -24,7 +24,6 @@ window.Date.prototype.Format = function (fmt) {
   return fmt
 }
 
-
 export default {
   getUrlParam (name) {
     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
