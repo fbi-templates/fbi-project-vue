@@ -1,31 +1,22 @@
 <template>
   <div class="index">
-    <h1>{{text}}</h1>
+    <typing/>
+    <div class="face-wrap">
+      <v-icon v-for="(name, index) in icons" :key="index" :name="name" />
+    </div>
   </div>
 </template>
 
 <script>
+import Typing from 'components/partials/Typing.vue'
 export default {
   data () {
     return {
-      allText: 'hello world',
-      text: '',
-      index: 1
+      icons: ['face-1', 'face-2', 'face-3', 'face-4', 'face-5']
     }
   },
-  methods: {
-    typing() {
-      if (this.index <= this.allText.length) {
-        this.text = this.allText.slice(0, this.index)
-        this.index++
-      } else {
-        return
-      }
-      setTimeout(this.typing, 100)
-    }
-  },
-  mounted () {
-    this.typing()
+  components: {
+    Typing
   }
 }
 </script>
@@ -35,14 +26,16 @@ export default {
   width: 100%;
   height: 100%;
   background: #f5f5f5;
-  h1 {
+  .face-wrap {
     position: absolute;
     left: 50%;
     top: 50%;
-    color: #2c3e50;
-    font-size: 100px;
-    text-align: center;
     transform: translate(-50%, -50%);
   }
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
 }
 </style>

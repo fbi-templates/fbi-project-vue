@@ -3,12 +3,9 @@
 </template>
 
 <script>
-// import Icons from 'src/static/icons'
-
 export default {
   data () {
     return {
-      Icons: Icons,
       iconClass: 'icon-' + this.name
     }
   },
@@ -16,10 +13,7 @@ export default {
     name: {
       type: String,
       required: true,
-      default: '',
-      validator (val) {
-        return Icons[val]
-      }
+      default: ''
     }
   },
   computed: {

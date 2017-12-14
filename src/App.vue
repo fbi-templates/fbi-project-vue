@@ -12,8 +12,8 @@ export default {
 </script>
 
 <style>
-  .page {
-    text-align: center;
-    padding: 1em;
-  }
+#app {
+  width: 100%;
+  height: 100%;
+}
 </style>

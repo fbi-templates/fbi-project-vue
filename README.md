@@ -65,6 +65,11 @@ $ fbi <task> [params]
 [MIT](https://opensource.org/licenses/MIT)
 
 ## Changelog
+- **3.0.1** (2017.12.14)
+  - 新增`global.js`全局注册组件和工具方法，直接在组件内部使用
+  - 新增`vuex-persistedstate`做vuex state持久化存储
+  - 新增`lodash-webpack-plugin`配置按需引入loadsh
+  - 优化ajax请求处理公共方法
 
 - **2.0.2** (2017.12.09)
   - Add `.editorconfig`
