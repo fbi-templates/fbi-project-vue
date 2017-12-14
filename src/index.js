@@ -7,6 +7,7 @@ import global from './global'
 import {sync} from 'vuex-router-sync'
 
 sync(store, router)
+global.init()
 
 const app = new Vue({
   router,

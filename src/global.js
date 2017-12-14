@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {$apis, $util, $document, $lodash} from './helpers/index'
+import {$apis, $util, $document} from './helpers/index'
 import filters from './filters'
 import Icon from 'components/basic/Icon/Icon.vue'
 
@@ -10,21 +10,25 @@ const globalHelper = {
   $_: $lodash
 }
 
+const globalComponent = {
+  'v-icon': Icon
+}
+
 // register global helper, use it in vue component just like `this.$apis.xxx`
 function initGlobalHelper() {
-  Object
-    .keys(globalHelper)
-    .forEach(key => {
-      Object.defineProperty(Vue.prototype, key, {value: globalHelper[key]})
-    })
+  for (let key in globalHelper) {
+    Object.defineProperty(Vue.prototype, key, {value: globalHelper[key]})
+  }
 }
 
 // register global component, use it in vue component just like `<v-icon :name='xxx'>`
 function initGlobalComponent() {
-  Vue.component('v-icon', Icon)
+  for (let key in globalComponent) {
+    Vue.component(key, globalComponent[key])
+  }
 }
 
-// register filter
+// register global filter
 function initFilters() {
   for (let key in filters) {
     Vue.filter(key, filters[key])

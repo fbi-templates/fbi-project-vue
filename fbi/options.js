@@ -37,8 +37,7 @@ module.exports = {
     }
   },
 
-  // Resolve alias
-  // e.g: import '../../components/x' => import 'components/x'
+  // Resolve alias e.g: import '../../components/x' => import 'components/x'
   alias: {
     src: path.join(process.cwd(), 'src'),
     components: path.join(process.cwd(), 'src/components'),
@@ -46,18 +45,12 @@ module.exports = {
     helpers: path.join(process.cwd(), 'src/helpers'),
     vue: path.join(process.cwd(), 'node_modules/vue/dist/vue.min.js'),
     vuex: path.join(process.cwd(), 'node_modules/vuex/dist/vuex.min.js'),
-    'vue-router': path.join(
-      process.cwd(),
-      'node_modules/vue-router/dist/vue-router.min.js'
-    ),
-    'vuex-router-sync': path.join(
-      process.cwd(),
-      'node_modules/vuex-router-sync/index.js'
-    )
+    'vue-router': path.join(process.cwd(), 'node_modules/vue-router/dist/vue-router.min.js'),
+    'vuex-router-sync': path.join(process.cwd(), 'node_modules/vuex-router-sync/index.js')
   },
 
-  // Webpack module noParse
-  // Docs: https://webpack.js.org/configuration/module/#module-noparse
+  // Webpack module noParse Docs:
+  // https://webpack.js.org/configuration/module/#module-noparse
   noParse: content => {
     return false
   },
@@ -68,24 +61,27 @@ module.exports = {
   eslint: {
     status: 'on', // `on`: turn on; others: turn off
     options: {
-      // code style: https://github.com/airbnb/javascript
-      // Docs: http://eslint.org/docs/user-guide/configuring
+      // code style: https://github.com/airbnb/javascript Docs:
+      // http://eslint.org/docs/user-guide/configuring
       rules: {
-        semi: ['error', 'never'],
+        semi: [
+          'error', 'never'
+        ],
         'no-console': [0],
-        'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+        'no-debugger': process.env.NODE_ENV === 'production'
+          ? 'error'
+          : 'off'
       }
     }
   },
 
-  // babel-loader options
-  // Docs: https://github.com/babel/babel-loader/tree/7.x#options
+  // babel-loader options Docs:
+  // https://github.com/babel/babel-loader/tree/7.x#options
   babel: {
     babelrc: false,
     presets: [
       [
-        'babel-preset-env',
-        {
+        'babel-preset-env', {
           targets,
           modules: false,
           useBuiltIns: true
