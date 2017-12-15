@@ -21,7 +21,7 @@ function initGlobalHelper() {
   }
 }
 
-// register global component, use it in vue component just like `<v-icon :name='xxx'>`
+// register global component, use it in vue component just like `<v-icon :name='xxx'/>`
 function initGlobalComponent() {
   for (let key in globalComponent) {
     Vue.component(key, globalComponent[key])

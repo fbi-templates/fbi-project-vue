@@ -1,7 +1,11 @@
 const state = {
+  name: ''
 }
 
 const mutations = {
+  updateName(state, name) {
+    state.name = name
+  }
 }
 
 const actions = {

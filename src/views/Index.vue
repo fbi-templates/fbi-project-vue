@@ -17,6 +17,8 @@ export default {
   },
   components: {
     Typing
+  },
+  mounted () {
   }
 }
 </script>
@@ -35,7 +37,7 @@ export default {
 }
 
 .icon {
-  width: 48px;
-  height: 48px;
+  width: 30px;
+  height: 30px;
 }
 </style>

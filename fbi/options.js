@@ -88,7 +88,8 @@ module.exports = {
         }
       ],
       'babel-preset-stage-1'
-    ]
+    ],
+    plugins: ["lodash"]
   },
 
   // Postcss config (plugin-name: plugin-options)
