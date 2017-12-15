@@ -65,6 +65,9 @@ $ fbi <task> [params]
 [MIT](https://opensource.org/licenses/MIT)
 
 ## Changelog
+- **3.0.2** （2017.12.15）
+  - 新增`fbi analyz`命令，分析打包文件性能
+  - `babel`配置中新增`babel-plugin-lodash`相关配置，修复loadsh未能按需引入bug
 - **3.0.1** (2017.12.14)
   - 新增`global.js`全局注册组件和工具方法，直接在组件内部使用
   - 新增`vuex-persistedstate`做vuex state持久化存储
