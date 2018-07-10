@@ -1,45 +1,43 @@
+const path = require('path')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpackBaseConfig = require('./webpack.base')
 
+const opts = ctx.options
+const root = process.cwd()
+const devModulesPath = ctx.nodeModulesPaths[1] || './node_modules'
+
 const config = {
+  mode: 'development',
+  entry: {
+    app: [
+      path.join(devModulesPath, 'webpack-hot-middleware/client?reload=true'),
+      path.join(root, opts.paths.main || 'src/main.js')
+    ]
+  },
+  output: {
+    path: path.join(root, opts.server.root, opts.paths.assets || 'assets'),
+    filename: 'js/[name].js',
+    publicPath: `/${opts.paths.assets || 'assets'}/`
+  },
   module: {
     rules: [
-      {
-        test: /\.vue$/,
-        use: {
-          loader: 'vue-loader',
-          options: {
-            esModule: false,
-            loaders: {
-              js: [
-                {
-                  loader: 'babel-loader',
-                  options: ctx.options.babel
-                }
-              ]
-            },
-            postcss: {
-              ident: 'postcss',
-              plugins: Object.keys(ctx.options.postcss).map(item => {
-                return require(`${item}`)(ctx.options.postcss[item])
-              })
-            }
-          }
-        }
-      },
+      // this will apply to both plain `.css` files
+      // AND `<style>` blocks in `.vue` files
       {
         test: /\.css$/,
         use: [
-          'style-loader',
-          'css-loader',
+          'vue-style-loader',
+          {
+            loader: 'css-loader',
+            options: { importLoaders: 1 }
+          },
           {
             loader: 'postcss-loader',
             options: {
               ident: 'postcss',
-              plugins: Object.keys(ctx.options.postcss).map(item => {
-                return require(`${item}`)(ctx.options.postcss[item])
+              plugins: Object.keys(opts.postcss).map(item => {
+                return require(`${item}`)(opts.postcss[item])
               })
             }
           }

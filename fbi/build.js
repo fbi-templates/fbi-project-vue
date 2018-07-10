@@ -8,18 +8,20 @@ ctx.env = ctx.task.getParams('build', 't') ? 'test' : 'prod'
 ctx.logger.log(`Env : ${ctx.env}`)
 
 // Set target root
-ctx.options.server.root += '-' + ctx.env
+if (ctx.env === 'test') {
+  ctx.options.server.root += '-' + ctx.env
+}
 ctx.logger.log(`Root: ${ctx.options.server.root}`)
 
 const webpackConfig = require('./config/webpack.prod')
 
-function build() {
+function build () {
   return new Promise((resolve, reject) => {
     webpack(webpackConfig, (err, stats) => {
       if (err) {
         reject(err)
       }
-      const info = stats.toJson()
+
       console.log(stats.toString(statsConfig))
       resolve()
     })

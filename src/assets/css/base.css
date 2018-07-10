@@ -17,11 +17,6 @@ body {
     helvetica, 'helvetica neue', Ubuntu, 'segoe ui', arial, sans-serif;
 }
 
-html, body {
-  width: 100%;
-  height: 100%;
-}
-
 audio,
 canvas,
 iframe,
@@ -29,15 +24,6 @@ img,
 svg,
 video {
   vertical-align: middle;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
 }
 
 fieldset {
@@ -105,7 +91,7 @@ ul {
 .clearfix {
   &:before,
   &:after {
-    content: " ";
+    content: ' ';
     display: table;
   }
   &:after {
@@ -137,20 +123,20 @@ ul {
   }
 
   a[href]:after {
-    content: " (" attr(href) ")";
+    content: ' (' attr(href) ')';
   }
 
   abbr[title]:after {
-    content: " (" attr(title) ")";
+    content: ' (' attr(title) ')';
   }
 
   /*
   * Don't show links that are fragment identifiers,
   * or use the `javascript:` pseudo protocol
   */
-  a[href^="#"]:after,
-  a[href^="javascript:"]:after {
-    content: "";
+  a[href^='#']:after,
+  a[href^='javascript:']:after {
+    content: '';
   }
 
   pre {

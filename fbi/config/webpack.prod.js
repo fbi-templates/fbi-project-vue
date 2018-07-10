@@ -4,62 +4,87 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const webpackBaseConfig = require('./webpack.base')
-const pkg = require('../../package')
 
-const noop = function() {}
+const opts = ctx.options
+const noop = function () {}
 const root = process.cwd()
-const staticPath = path.join(root, 'static')
+const staticPath = path.join(root, opts.paths.public)
 const needCopy = fs.existsSync(staticPath)
 
 const config = {
+  mode: 'production',
   entry: {
-    app: path.join(root, 'src/index.js')
+    app: path.join(root, opts.paths.main || 'src/main.js')
   },
   output: {
-    path: path.join(root, ctx.options.server.root, 'assets'),
-    filename: '[name].[chunkhash:8].js',
-    publicPath: './assets/'
+    path: path.join(root, opts.server.root, opts.paths.assets || 'assets'),
+    filename: 'js/[name].[chunkhash:8].js',
+    publicPath: `./${opts.paths.assets || 'assets'}/`
   },
   // For development, use cheap-module-eval-source-map. For production, use cheap-module-source-map.
-  devtool: ctx.options.sourcemap || false,
+  devtool: opts.sourcemap || false,
+  optimization: {
+    // chunk for the webpack runtime code and chunk manifest
+    runtimeChunk: {
+      name: 'manifest'
+    },
+    // https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
+    splitChunks: {
+      chunks: 'async',
+      minSize: 30000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: '~',
+      name: true,
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    },
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true // set to true if you want JS source maps
+      }),
+      new OptimizeCSSAssetsPlugin({
+        cssProcessorOptions: { safe: true }
+      })
+    ]
+  },
   module: {
     rules: [
       {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          extractCSS: true
-        }
-      },
-      {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                minimize: true
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                ident: 'postcss',
-                plugins: Object.keys(ctx.options.postcss).map(item => {
-                  return require(`${item}`)(ctx.options.postcss[item])
-                })
-              }
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // you can specify a publicPath here
+              // by default it use publicPath in webpackOptions.output
+              publicPath: '../'
             }
-          ],
-          publicPath: './' // assets path prefix in css
-        })
+          },
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: Object.keys(opts.postcss).map(item => {
+                return require(`${item}`)(opts.postcss[item])
+              })
+            }
+          }
+        ]
       }
     ]
   },
@@ -72,72 +97,29 @@ const config = {
         NODE_ENV: '"production"'
       }
     }),
-    new CleanWebpackPlugin([ctx.options.server.root], {
+    new CleanWebpackPlugin([opts.server.root], {
       root: root,
       verbose: false
     }),
-    new UglifyJSPlugin({
-      parallel: true,
-      sourceMap: Boolean(ctx.options.sourcemap),
-      uglifyOptions: {
-        ecma: 8
-      }
-    }),
-    // extract css into its own file
-    new ExtractTextPlugin({
-      filename: 'app.[contenthash:8].css',
-      // set the following option to `true` if you want to extract CSS from
-      // codesplit chunks into this main css file as well.
-      // This will result in *all* of your app's CSS being loaded upfront.
-      allChunks: false
-    }),
-
-    // Compress extracted CSS. We are using this plugin so that possible
-    // duplicated CSS from different components can be deduped.
-    new OptimizeCSSPlugin({
-      cssProcessorOptions: {safe: true}
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: 'css/[name].css',
+      chunkFilename: 'css/[name].[hash:8].css'
     }),
     // keep module.id stable when vender modules does not change
     new webpack.HashedModuleIdsPlugin(),
-    // enable scope hoisting
-    new webpack.optimize.ModuleConcatenationPlugin(),
     // optimize module ids by occurrence count
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: function(module) {
-        // This prevents stylesheet resources with the .css or .scss extension
-        // from being moved from their original chunk to the vendor chunk
-        if (module.resource && /^.*\.(css|scss)$/.test(module.resource)) {
-          return false
-        }
-        return module.context && module.context.indexOf('node_modules') !== -1
-      }
-    }),
-    // extract webpack runtime and module manifest to its own file in order to
-    // prevent vendor hash from being updated whenever app bundle is updated
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest',
-      minChunks: Infinity
-    }),
-    // This instance extracts shared chunks from code splitted chunks and bundles them
-    // in a separate chunk, similar to the vendor chunk
-    // see: https://webpack.js.org/plugins/commons-chunk-plugin/#extra-async-commons-chunk
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'app',
-      async: 'vendor-async',
-      children: true,
-      minChunks: 3
-    }),
 
     needCopy
       ? new CopyWebpackPlugin([
-          {
-            from: staticPath,
-            to: '../',
-            ignore: ['.*']
-          }
-        ])
+        {
+          from: staticPath,
+          to: '../',
+          ignore: ['.*', 'index.ejs']
+        }
+      ])
       : noop
   ]
 }
