@@ -58,7 +58,7 @@ const config = {
           },
           {
             loader: 'babel-loader',
-            options: Object.assign(
+            options: ctx.utils.assign(
               {},
               {
                 cacheDirectory: true
@@ -136,7 +136,7 @@ if (opts.eslint.enable) {
     loader: 'eslint-loader',
     enforce: 'pre',
     exclude: /node_modules/,
-    options: Object.assign(
+    options: ctx.utils.assign(
       {},
       {
         cache: true,
@@ -154,6 +154,7 @@ if (opts.eslint.enable) {
           }
         },
         env: {
+          node: true,
           browser: true
         },
         rules: {

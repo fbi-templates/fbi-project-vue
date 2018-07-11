@@ -20,41 +20,32 @@ module.exports = {
 
   // Compile time data (Valid only in js code)
   data: {
-    // All environments
     all: {
+      // for all environments
       __KEY__: ''
     },
     // `fbi s`
     dev: {
-      __APIROOT__: '/proxy',
-      __RESOURCE_ROOT__: 'http://localhost:4000/'
+      __APIROOT__: '/proxy'
     },
     // `fbi b -test`
     test: {
-      __APIROOT__: 'https://api.github.com',
-      __RESOURCE_ROOT__: '/retu/'
+      __APIROOT__: 'https://api.github.com'
     },
     // `fbi b` or `fbi b -p`
     prod: {
-      __APIROOT__: 'https://api.github.com',
-      __RESOURCE_ROOT__: './'
+      __APIROOT__: 'https://api.github.com'
     }
   },
 
   // Resolve alias
-  // e.g: import '../../components/x' => import 'components/x'
+  // e.g: import '../../components/x' => import '@/components/x'
   alias: {
     '@': resolve('src'),
-    vue: path.join(process.cwd(), 'node_modules/vue/dist/vue.runtime.esm.js'),
-    vuex: path.join(process.cwd(), 'node_modules/vuex/dist/vuex.esm.js'),
-    'vue-router': path.join(
-      process.cwd(),
-      'node_modules/vue-router/dist/vue-router.esm.js'
-    ),
-    'vuex-router-sync': path.join(
-      process.cwd(),
-      'node_modules/vuex-router-sync/index.js'
-    )
+    vue: resolve('node_modules/vue/dist/vue.esm.js'),
+    vuex: resolve('node_modules/vuex/dist/vuex.esm.js'),
+    'vue-router': resolve('node_modules/vue-router/dist/vue-router.esm.js'),
+    'vuex-router-sync': resolve('node_modules/vuex-router-sync/index.js')
   },
 
   // Webpack module noParse
@@ -63,7 +54,7 @@ module.exports = {
     return false
   },
 
-  sourcemap: 'cheap-module-source-map',
+  sourcemap: 'source-map',
 
   // ESlint config
   eslint: {

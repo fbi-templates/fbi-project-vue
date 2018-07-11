@@ -2,9 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import hooks from './hooks'
 
-const Home = () => import('views/Home.vue' /* webpackChunkName: "chunk-home" */)
+const Home = () => import('@/views/Home.vue' /* webpackChunkName: "chunk-home" */)
 const About = () =>
-  import('views/About.vue' /* webpackChunkName: "chunk-about" */)
+  import('@/views/About.vue' /* webpackChunkName: "chunk-about" */)
 // import Home from '@/views/Home.vue'
 // import About from '@/views/About.vue'
 

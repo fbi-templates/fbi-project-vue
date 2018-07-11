@@ -3,12 +3,14 @@
   <div class="home">
     <img src="../assets/img/logo.png">
     <h3>{{ num }}</h3>
+    <demo></demo>
     <HelloWorld msg="Welcome to Your Vue.js App"></HelloWorld>
   </div>
 </template>
 
 <script>
   import HelloWorld from '@/components/HelloWorld.vue'
+  import Demo from '@/components/demo'
 
   export default {
     name: 'home',
@@ -16,6 +18,7 @@
     // Assets
     components: {
       HelloWorld,
+      Demo
     },
 
     // Composition

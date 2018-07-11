@@ -13,11 +13,11 @@ A modern project which uses `Vue.js` and `Webpack`.
 
 ## Features
 
-- ESLint
-- ES modules
-- Environment data config
-- Local development server using [nodemon](https://github.com/remy/nodemon)
-- Debug in VSCode
+- support 'single file components' and 'separated files components'
+- Eslint using [standard](https://standardjs.com/) config
+- SASS like css - [precss](https://github.com/jonathantneal/precss)
+- http proxy
+- unlimited environment data
 
 ## Usage
 
@@ -87,6 +87,17 @@ $ fbi up vue
 [MIT](https://opensource.org/licenses/MIT)
 
 ## Changelog
+
+- **4.0.1** (2018.07.11)
+
+  - Fixes 'processNextTick is not a function'
+  - Fixes eslint error
+  - Fixes hot reload bugs
+  - Fixes default demo bugs
+  - add 'separated files components' demo
+  - update `options.js`
+  - update devDependencies
+  - update readme
 
 - **4.0.0** (2018.07.10)
 

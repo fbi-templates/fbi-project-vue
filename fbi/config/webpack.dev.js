@@ -6,13 +6,19 @@ const webpackBaseConfig = require('./webpack.base')
 const opts = ctx.options
 const root = process.cwd()
 const devModulesPath = ctx.nodeModulesPaths[1] || './node_modules'
+const script =
+  'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true'
+const hotMiddlewareScript = ctx.nodeModulesPaths[1]
+  ? path.join(ctx.nodeModulesPaths[1], script)
+  : script
 
 const config = {
   mode: 'development',
   entry: {
     app: [
-      path.join(devModulesPath, 'webpack-hot-middleware/client?reload=true'),
-      path.join(root, opts.paths.main || 'src/main.js')
+      // path.join(devModulesPath, './webpack-hot-middleware/client?reload=true'),
+      path.join(root, opts.paths.main || 'src/main.js'),
+      hotMiddlewareScript
     ]
   },
   output: {

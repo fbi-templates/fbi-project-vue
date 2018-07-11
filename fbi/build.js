@@ -8,9 +8,8 @@ ctx.env = ctx.task.getParams('build', 't') ? 'test' : 'prod'
 ctx.logger.log(`Env : ${ctx.env}`)
 
 // Set target root
-if (ctx.env === 'test') {
-  ctx.options.server.root += '-' + ctx.env
-}
+ctx.options.server.root = ctx.options.server.root || 'dist'
+
 ctx.logger.log(`Root: ${ctx.options.server.root}`)
 
 const webpackConfig = require('./config/webpack.prod')

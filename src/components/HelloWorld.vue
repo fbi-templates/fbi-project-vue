@@ -3,25 +3,43 @@
     <h1>{{ msg }}</h1>
     <h3>Vue.js Resources</h3>
     <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://router.vuejs.org" target="_blank">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
+      <li>
+        <a href="https://vuejs.org" target="_blank">Core Docs</a>
+      </li>
+      <li>
+        <a href="https://router.vuejs.org" target="_blank">vue-router</a>
+      </li>
+      <li>
+        <a href="https://vuex.vuejs.org" target="_blank">vuex</a>
+      </li>
+      <li>
+        <a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank">vue-devtools</a>
+      </li>
+      <li>
+        <a href="https://vue-loader.vuejs.org" target="_blank">vue-loader</a>
+      </li>
+      <li>
+        <a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a>
+      </li>
     </ul>
     <h3>fbi resources</h3>
     <ul>
-      <li><a href="https://github.com/fbi-templates/fbi-project-vue#fbi-project-vue" target="_blank">template docs</a></li>
-      <li><a href="https://github.com/AlloyTeam/fbi" target="_blank">fbi</a></li>
-      <li><a href="https://github.com/fbi-templates" target="_blank">fbi templates</a></li>
+      <li>
+        <a href="https://github.com/fbi-templates/fbi-project-vue#fbi-project-vue" target="_blank">template docs</a>
+      </li>
+      <li>
+        <a href="https://github.com/AlloyTeam/fbi" target="_blank">fbi</a>
+      </li>
+      <li>
+        <a href="https://github.com/fbi-templates" target="_blank">fbi templates</a>
+      </li>
     </ul>
-    <ul>
     <h3>fbi templates</h3>
-    <li v-for="item in repoList" :key="item.id">
-      <a :href="item.url" target="_blank">{{item.name}}</a>
-    </li>
-  </ul>
+    <ul>
+      <li v-for="item in repoList" :key="item.id">
+        <a :href="item.html_url" target="_blank">{{item.name}}</a>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -43,7 +61,7 @@
       this.$store.dispatch('repo/getList')
         .then(res => {
           console.log(res)
-          this.repoList = res.data
+          this.repoList = res
         })
         .catch(err => {
           if (err.message.indexOf('timeout of') >= 0) {
@@ -64,12 +82,12 @@
   ul {
     list-style-type: none;
     padding: 0;
-  }
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
-  a {
-    color: #42b983;
+    li {
+      display: inline-block;
+      margin: 0 10px;
+      a {
+        color: #42b983;
+      }
+    }
   }
 </style>
