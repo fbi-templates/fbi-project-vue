@@ -88,6 +88,10 @@ $ fbi up vue
 
 ## Changelog
 
+[Latest log](./CHANGELOG.md)
+
+
+Earlier log:
 - **4.0.1** (2018.07.11)
 
   - Fixes 'processNextTick is not a function'
