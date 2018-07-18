@@ -2,11 +2,7 @@
   "name": "fbi-project-vue",
   "version": "4.0.1",
   "description": "SPA using Vue.js",
-  "scripts": {
-    "release-patch": "npm version patch && git push && git push --tags",
-    "release-minor": "npm version minor && git push && git push --tags",
-    "release-major": "npm version major && git push && git push --tags"
-  },
+  "scripts": {},
   "dependencies": {
     "axios": "^0.18.0",
     "vue": "^2.5.16",
