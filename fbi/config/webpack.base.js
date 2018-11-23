@@ -7,11 +7,7 @@ const DataForCompile = require('./data-for-compile')
 
 const opts = ctx.options
 const root = process.cwd()
-let templateFilepath = path.join(
-  root,
-  opts.paths.public || 'public',
-  'index.html'
-)
+let templateFilepath = path.join(root, opts.paths.public || 'public', 'index.html')
 if (!fs.existsSync(templateFilepath)) {
   templateFilepath = templateFilepath.replace('.html', '.ejs')
 }
@@ -28,9 +24,7 @@ const config = {
     extensions: ['*', '.js', '.vue', '.css', '.json'],
     alias: opts.alias,
     // https://github.com/benmosher/eslint-plugin-import/issues/139#issuecomment-287183200
-    modules: ctx.nodeModulesPaths.concat([
-      path.resolve(__dirname, '..', 'src')
-    ])
+    modules: ctx.nodeModulesPaths.concat([path.resolve(__dirname, '..', 'src')])
   },
   resolveLoader: {
     modules: ctx.nodeModulesPaths
@@ -61,7 +55,8 @@ const config = {
             options: ctx.utils.assign(
               {},
               {
-                cacheDirectory: true
+                cacheDirectory: true,
+                plugins: ['babel-plugin-transform-vue-jsx']
               },
               opts.babel
             )
@@ -77,9 +72,7 @@ const config = {
         loader: 'url-loader',
         options: {
           limit: 5000,
-          name: process.env.NODE_ENV === 'production'
-            ? 'img/[name].[hash:8].[ext]'
-            : 'img/[name].[ext]?[hash:8]'
+          name: process.env.NODE_ENV === 'production' ? 'img/[name].[hash:8].[ext]' : 'img/[name].[ext]?[hash:8]'
         }
       },
       {
@@ -87,9 +80,7 @@ const config = {
         loader: 'url-loader',
         options: {
           limit: 5000,
-          name: process.env.NODE_ENV === 'production'
-            ? 'media/[name].[hash:8].[ext]'
-            : 'media/[name].[ext]?[hash:8]'
+          name: process.env.NODE_ENV === 'production' ? 'media/[name].[hash:8].[ext]' : 'media/[name].[ext]?[hash:8]'
         }
       },
       {
@@ -97,9 +88,7 @@ const config = {
         loader: 'url-loader',
         options: {
           limit: 5000,
-          name: process.env.NODE_ENV === 'production'
-            ? 'fonts/[name].[hash:8].[ext]'
-            : 'fonts/[name].[ext]?[hash:8]'
+          name: process.env.NODE_ENV === 'production' ? 'fonts/[name].[hash:8].[ext]' : 'fonts/[name].[ext]?[hash:8]'
         }
       }
     ]
