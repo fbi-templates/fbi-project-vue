@@ -15,6 +15,7 @@
     "autoprefixer": "8.6.5",
     "babel-core": "6.26.3",
     "babel-eslint": "8.2.5",
+    "babel-helper-vue-jsx-merge-props": "2.0.3",
     "babel-loader": "7.1.5",
     "babel-plugin-transform-vue-jsx": "3.7.0",
     "babel-preset-env": "1.7.0",
