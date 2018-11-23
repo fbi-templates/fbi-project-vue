@@ -56,7 +56,7 @@ const config = {
               {},
               {
                 cacheDirectory: true,
-                plugins: ['babel-plugin-transform-vue-jsx']
+                plugins: ['transform-vue-jsx']
               },
               opts.babel
             )
