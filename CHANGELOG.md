@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.1.1"></a>
+## [4.1.1](https://github.com/fbi-templates/fbi-project-vue/compare/v4.1.0...v4.1.1) (2018-11-23)
+
+
+### Bug Fixes
+
+* add 'babel-helper-vue-jsx-merge-props' ([8ff342e](https://github.com/fbi-templates/fbi-project-vue/commit/8ff342e))
+
+
+
 <a name="4.1.0"></a>
 # [4.1.0](https://github.com/fbi-templates/fbi-project-vue/compare/v4.0.4...v4.1.0) (2018-11-23)
 
